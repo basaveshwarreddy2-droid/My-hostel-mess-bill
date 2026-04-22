@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Mess Bill Calculator</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #2c3e50; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #34495e; }
+        input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background-color: #27ae60; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        button:hover { background-color: #219150; }
+        .result { margin-top: 25px; padding: 15px; background-color: #e8f8f5; border-left: 5px solid #27ae60; border-radius: 4px; display: none; }
+        .result p { margin: 8px 0; font-size: 18px; }
+        .highlight { font-weight: bold; color: #e67e22; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🏢 Hostel Mess Bill</h2>
+    
+    <div class="input-group">
+        <label>Total Grocery/Food Expenses (₹)</label>
+        <input type="number" id="totalExp" placeholder="Total spent this month">
+    </div>
+
+    <div class="input-group">
+        <label>Fixed Charges (Cook, Gas, Rent) (₹)</label>
+        <input type="number" id="fixedExp" placeholder="Total fixed costs">
+    </div>
+
+    <div class="input-group">
+        <label>Total Number of Students</label>
+        <input type="number" id="studentCount" placeholder="Number of members">
+    </div>
+
+    <div class="input-group">
+        <label>Average Attendance (Days per Student)</label>
+        <input type="number" id="avgDays" value="30">
+    </div>
+
+    <button onclick="calculateBill()">Calculate Monthly Bill</button>
+
+    <div id="resultBox" class="result">
+        <p>Total Mess Cost: <span id="resTotal" class="highlight"></span></p>
+        <p>Cost Per Student: <span id="resPerStudent" class="highlight"></span></p>
+        <p>Approx. Daily Rate: <span id="resDaily" class="highlight"></span></p>
+    </div>
+</div>
+
+<script>
+    function calculateBill() {
+        const totalExp = parseFloat(document.getElementById('totalExp').value) || 0;
+        const fixedExp = parseFloat(document.getElementById('fixedExp').value) || 0;
+        const students = parseFloat(document.getElementById('studentCount').value) || 1;
+        const days = parseFloat(document.getElementById('avgDays').value) || 1;
+
+        if (totalExp <= 0 || students <= 0) {
+            alert("Please enter valid expense and student numbers.");
+            return;
+        }
+
+        const grandTotal = totalExp + fixedExp;
+        const perStudent = grandTotal / students;
+        const dailyRate = perStudent / days;
+
+        document.getElementById('resTotal').innerText = "₹" + grandTotal.toFixed(2);
+        document.getElementById('resPerStudent').innerText = "₹" + perStudent.toFixed(2);
+        document.getElementById('resDaily').innerText = "₹" + dailyRate.toFixed(2);
+        
+        document.getElementById('resultBox').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
